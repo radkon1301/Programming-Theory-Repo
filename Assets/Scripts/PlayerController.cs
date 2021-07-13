@@ -12,10 +12,10 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
 
     // Helicopter's speed
-    private float speed = 10;
+    [SerializeField] private float speed = 10; // ENCAPSULATION
 
     // Helicopter's turn speed
-    private float turnSpeed = 240;
+    [SerializeField] private float turnSpeed = 240;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!gameManager.isGameOver)
         {
-            ManageInput();
+            ManageInput(); // ABSTRACTION
         }
     }
 
