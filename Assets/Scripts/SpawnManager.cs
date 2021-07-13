@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject missile;
+    private GameObject player;
+    private GameManager gameManager;
     private float xRange = 50;
     private float zRange = 50;
     private float spawnDist = 70;
@@ -16,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player");
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         InvokeRepeating("SpawnMissile", startDelay, spawnInterval);
     }
 
@@ -27,14 +31,17 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnMissile()
     {
-        float xCor = Random.Range(-xRange, xRange);
-        float zCor = Random.Range(-zRange, zRange);
-        while (xCor * xCor + zCor * zCor < spawnDist * spawnDist)
+        if (!gameManager.isGameOver)
         {
-            xCor *= 2;
-            zCor *= 2;
+            float xCor = Random.Range(-xRange, xRange);
+            float zCor = Random.Range(-zRange, zRange);
+            while (xCor * xCor + zCor * zCor < spawnDist * spawnDist)
+            {
+                xCor *= 2;
+                zCor *= 2;
+            }
+            Instantiate(missile, new Vector3(player.transform.position.x + xCor, 0, player.transform.position.z + zCor), missile.transform.rotation);
+            spawnInterval *= intervalDecrease;
         }
-        Instantiate(missile, new Vector3(xCor, 0, zCor), missile.transform.rotation);
-        spawnInterval *= intervalDecrease;
     }
 }

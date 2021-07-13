@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float horizontalInput;
 
     public GameObject bulletPrefab;
+    private GameManager gameManager;
 
     // Helicopter's speed
     private float speed = 10;
@@ -19,11 +20,19 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (!gameManager.isGameOver)
+        {
+            ManageInput();
+        }
+    }
+
+    private void ManageInput()
     {
         // Fire
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -42,5 +51,11 @@ public class PlayerController : MonoBehaviour
         float h = Input.mousePosition.x - Screen.width / 2;
         float v = Input.mousePosition.y - Screen.height / 2;
         transform.LookAt(new Vector3(h, 0, v));
+    }
+
+    public void Kill()
+    {
+        gameManager.EndGame();
+        Destroy(gameObject);
     }
 }

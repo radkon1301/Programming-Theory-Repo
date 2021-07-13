@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectCollisions : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
+    public bool isGameOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +18,8 @@ public class DetectCollisions : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void EndGame()
     {
-        Destroy(gameObject);
-        Destroy(other.gameObject);
+        isGameOver = true;
     }
 }
